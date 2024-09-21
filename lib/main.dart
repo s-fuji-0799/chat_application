@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:chat_application/firebase_options.dart';
 
-import 'package:chat_application/providers.dart';
+import 'package:chat_application/providers/router.dart';
 
-//TODO(NOTE): 120hz以上のデバイスではアニメーション時例外が起こる
+//TODO(NOTE): 120hz以上のデバイスではアニメーション時例外発生の可能性がある
 //参考URL: https://github.com/flutter/flutter/issues/106277
 
 void main() async {
@@ -24,11 +24,6 @@ class MainApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //認証状態が変化したらルーターをリロードする
-    ref.read(authProvider).authStateChanges().listen(
-          (_) => ref.read(routerProvider).refresh(),
-        );
-
     return MaterialApp.router(
       routerConfig: ref.watch(routerProvider),
     );

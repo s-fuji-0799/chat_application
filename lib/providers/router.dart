@@ -1,13 +1,15 @@
-import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:chat_application/providers/notifiers.dart';
 
 import 'package:chat_application/pages/auth_page.dart';
 import 'package:chat_application/pages/home_page.dart';
 
 final routerProvider = Provider<GoRouter>(
   (ref) {
+    final user = ref.watch(userNotifierProvider);
+
     return GoRouter(
       routes: [
         GoRoute(
@@ -23,16 +25,14 @@ final routerProvider = Provider<GoRouter>(
               builder: (context, state) => const SignUpPage(),
             ),
             GoRoute(
-              path: 'login',
-              builder: (context, state) => const LoginPage(),
+              path: 'signin',
+              builder: (context, state) => const SignInPage(),
             ),
           ],
         ),
       ],
       redirect: (context, state) {
         //認証状態によって遷移先を変える
-        final user = ref.read(authProvider).currentUser;
-
         if (user == null) {
           if (RegExp(r'^/auth.*').hasMatch(state.matchedLocation)) {
             return null;
@@ -48,5 +48,3 @@ final routerProvider = Provider<GoRouter>(
     );
   },
 );
-
-final authProvider = Provider((ref) => FirebaseAuth.instance);

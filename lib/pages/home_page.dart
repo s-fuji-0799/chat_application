@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:chat_application/providers.dart';
+import 'package:chat_application/providers/notifiers.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -11,15 +11,21 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            try {
-              await ref.read(authProvider).signOut();
-            } catch (e) {
-              print(e);
-            }
-          },
-          child: Text('ログアウト'),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(ref.watch(userNotifierProvider)!.uid),
+            ElevatedButton(
+              onPressed: () async {
+                try {
+                  await ref.watch(userNotifierProvider.notifier).signOut();
+                } catch (e) {
+                  print(e);
+                }
+              },
+              child: const Text('ログアウト'),
+            ),
+          ],
         ),
       ),
     );
