@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:chat_application/providers/notifiers.dart';
+import 'package:chat_application/notifiers/user_notifier.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
